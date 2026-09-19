@@ -13,3 +13,5 @@
 - Tarefas pendentes/concluídas/canceladas, filtros de acompanhamento e resolução de próxima ação.
 - Agenda interna com eventos, timezone de apresentação e persistência de instantes UTC.
 - Equipes com atribuição idempotente, tags, segmentos declarativos e campos personalizados tipados.
+- Inbox interna com conversas, mensagens idempotentes, deduplicação de eventos recebidos e bloqueio de canais desconectados.
+- Contratos `ChannelAdapter` e `CalendarProvider` com fakes para testes, sem declarar integrações externas concluídas.

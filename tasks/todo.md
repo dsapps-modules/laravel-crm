@@ -6,6 +6,8 @@
 - [x] Comercial: funis e oportunidades
 - [x] Acompanhamento: tarefas e agenda interna
 - [x] Comercial: equipes, tags, segmentos e campos personalizados
+- [x] Comunicação: inbox, contratos de canal e CalendarProvider fake
+- [ ] Comunicação: adapters reais após escolha de provedores
 - [ ] Comunicação: inbox e adapters
 - [ ] Automação: regras, jobs e indicadores
 - [ ] UI: biblioteca React/TypeScript

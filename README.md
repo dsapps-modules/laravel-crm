@@ -31,6 +31,9 @@ O usuário autenticado precisa autorizar `crm.contacts.manage` e `crm.companies.
 - `GET|POST /api/crm/v1/tags` and `POST /api/crm/v1/tags/{tag}/attach`
 - `GET|POST /api/crm/v1/custom-fields` and `POST /api/crm/v1/custom-fields/{field}/value`
 - `GET|POST /api/crm/v1/segments`
+- `GET|POST /api/crm/v1/channel-accounts`
+- `GET|POST /api/crm/v1/conversations`
+- `POST /api/crm/v1/conversations/{conversation}/messages`
 
 Listas aceitam `search` e `per_page` (limitado a 100). Exclusão é arquivamento para preservar histórico.
 
@@ -40,9 +43,11 @@ Tarefas e eventos persistem instantes em UTC e mantêm o timezone de apresentaç
 
 Equipes usam IDs de usuário do hospedeiro, sem acoplar um modelo de usuário ao pacote. Tags e campos personalizados aceitam somente entidades e tipos declarados. Segmentos armazenam filtros JSON declarativos; o pacote não executa código vindo desses filtros.
 
+A inbox persiste conversas, mensagens e eventos de entrada com chave de idempotência. Notas internas nunca passam por adapter externo. O contrato `ChannelAdapter` separa envio e capacidades; neste estágio existe somente fake para testes e o canal aparece como desconectado/bloqueado sem provedor configurado. `CalendarProvider` e seu fake preparam criação, atualização e cancelamento sem alegar sincronização Google Calendar.
+
 ## Estado da entrega
 
-Implementado e testável localmente: fundação do pacote, migrações, contatos, empresas, arquivamento, paginação, validação, autorização configurável, funis, etapas, oportunidades, valores decimais, auditoria de movimentação, concorrência otimista, tarefas, agenda interna, equipes, tags, segmentos e campos personalizados.
+Implementado e testável localmente: fundação do pacote, migrações, contatos, empresas, arquivamento, paginação, validação, autorização configurável, funis, etapas, oportunidades, valores decimais, auditoria de movimentação, concorrência otimista, tarefas, agenda interna, equipes, tags, segmentos, campos personalizados, inbox interna e contratos de canais/Calendar.
 
 Ainda não concluído: funis/oportunidades, tarefas, inbox, adapters reais de WhatsApp/e-mail, sincronização Google Calendar, automações, indicadores e biblioteca React completa. Não há alegação de integração externa sem provedor/credenciais aprovados.
 
