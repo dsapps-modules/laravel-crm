@@ -4,7 +4,7 @@
 - [ ] Fundação: API de contatos, empresas e vínculos externos
 - [ ] Fundação: testes e documentação de instalação
 - [x] Comercial: funis e oportunidades
-- [ ] Acompanhamento: tarefas e agenda interna
+- [x] Acompanhamento: tarefas e agenda interna
 - [ ] Comunicação: inbox e adapters
 - [ ] Automação: regras, jobs e indicadores
 - [ ] UI: biblioteca React/TypeScript
