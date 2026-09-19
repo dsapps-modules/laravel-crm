@@ -31,7 +31,7 @@ Pacote Laravel independente para CRM comercial, com API versionada e biblioteca 
 - [x] Inbox e contratos de canal
 - [ ] Adapters reais após escolha de provedores
 - [x] CalendarProvider, fake e preparação para Google Calendar
-- [ ] Automações idempotentes, indicadores e dashboard
+- [x] Automações idempotentes, indicadores e dashboard
 
 ### Publicação
 

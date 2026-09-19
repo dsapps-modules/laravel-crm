@@ -9,7 +9,7 @@
 - [x] Comunicação: inbox, contratos de canal e CalendarProvider fake
 - [ ] Comunicação: adapters reais após escolha de provedores
 - [ ] Comunicação: inbox e adapters
-- [ ] Automação: regras, jobs e indicadores
+- [x] Automação: regras idempotentes e indicadores básicos
 - [ ] UI: biblioteca React/TypeScript
 - [ ] Publicação: revisão, changelog e release
 

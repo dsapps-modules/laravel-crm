@@ -15,3 +15,4 @@
 - Equipes com atribuição idempotente, tags, segmentos declarativos e campos personalizados tipados.
 - Inbox interna com conversas, mensagens idempotentes, deduplicação de eventos recebidos e bloqueio de canais desconectados.
 - Contratos `ChannelAdapter` e `CalendarProvider` com fakes para testes, sem declarar integrações externas concluídas.
+- Automações declarativas com ações permitidas, execução idempotente e indicadores básicos com denominador explícito.
