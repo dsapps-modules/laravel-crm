@@ -25,11 +25,19 @@ export type CrmClientOptions = {
 
 export function createCrmClient(options: CrmClientOptions) {
   const request = options.fetch ?? fetch;
+  const get = async (path: string): Promise<any> => {
+    const response = await request(`${options.baseUrl}${path}`, { headers: options.headers });
+    if (!response.ok) throw new Error(`CRM request failed: ${response.status}`);
+    return response.json();
+  };
   return {
     async listContacts(params: URLSearchParams = new URLSearchParams()): Promise<unknown> {
-      const response = await request(`${options.baseUrl}/contacts?${params}`, { headers: options.headers });
-      if (!response.ok) throw new Error(`CRM request failed: ${response.status}`);
-      return response.json();
+      return get(`/contacts?${params}`);
     },
+    getSummary: () => get('/reports/summary'),
+    listTasks: () => get('/tasks?scope=upcoming&per_page=5'),
+    listOpportunities: () => get('/opportunities?status=open&per_page=100'),
   };
 }
+
+export * from './dashboard';

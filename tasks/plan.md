@@ -32,7 +32,7 @@ Pacote Laravel independente para CRM comercial, com API versionada e biblioteca 
 - [ ] Adapters reais após escolha de provedores
 - [x] CalendarProvider, fake e preparação para Google Calendar
 - [x] Automações idempotentes e indicadores básicos
-- [ ] Dashboard React de indicadores
+- [x] Dashboard React de indicadores
 
 ### Publicação
 

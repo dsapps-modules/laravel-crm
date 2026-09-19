@@ -10,7 +10,7 @@
 - [ ] Comunicação: adapters reais após escolha de provedores
 - [ ] Comunicação: inbox e adapters
 - [x] Automação: regras idempotentes e indicadores básicos
-- [ ] UI: biblioteca React/TypeScript
+- [x] UI: dashboard React/TypeScript
 - [ ] Publicação: revisão, changelog e release
 
 ## Checkpoint

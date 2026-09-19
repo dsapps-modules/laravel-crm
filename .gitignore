@@ -4,5 +4,7 @@
 /.phpunit.cache/
 /build/
 /node_modules/
+/react/node_modules/
+/react/package-lock.json
 *.log
 .env
