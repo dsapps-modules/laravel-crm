@@ -1,0 +1,9 @@
+{
+    "name": "@dsapps/crm-react",
+    "version": "0.1.0",
+    "private": false,
+    "description": "React/TypeScript client contracts for DS Apps Laravel CRM.",
+    "type": "module",
+    "peerDependencies": { "react": ">=18" },
+    "scripts": { "build": "tsc --noEmit" }
+}
