@@ -6,6 +6,10 @@ use DsApps\LaravelCrm\Http\Controllers\OpportunityController;
 use DsApps\LaravelCrm\Http\Controllers\PipelineController;
 use DsApps\LaravelCrm\Http\Controllers\TaskController;
 use DsApps\LaravelCrm\Http\Controllers\CalendarEventController;
+use DsApps\LaravelCrm\Http\Controllers\TeamController;
+use DsApps\LaravelCrm\Http\Controllers\TagController;
+use DsApps\LaravelCrm\Http\Controllers\CustomFieldController;
+use DsApps\LaravelCrm\Http\Controllers\SegmentController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix(config('crm.api.prefix', 'api/crm/v1'))
@@ -19,4 +23,11 @@ Route::prefix(config('crm.api.prefix', 'api/crm/v1'))
         Route::apiResource('tasks', TaskController::class)->middleware('crm.authorize:crm.tasks.manage');
         Route::post('tasks/{task}/complete', [TaskController::class, 'complete'])->middleware('crm.authorize:crm.tasks.manage');
         Route::apiResource('calendar-events', CalendarEventController::class)->middleware('crm.authorize:crm.calendar.manage');
+        Route::apiResource('teams', TeamController::class)->only(['index', 'store', 'show'])->middleware('crm.authorize:crm.teams.manage');
+        Route::post('teams/{team}/members', [TeamController::class, 'assign'])->middleware('crm.authorize:crm.teams.manage');
+        Route::apiResource('tags', TagController::class)->only(['index', 'store'])->middleware('crm.authorize:crm.tags.manage');
+        Route::post('tags/{tag}/attach', [TagController::class, 'attach'])->middleware('crm.authorize:crm.tags.manage');
+        Route::apiResource('custom-fields', CustomFieldController::class)->only(['index', 'store'])->middleware('crm.authorize:crm.fields.manage');
+        Route::post('custom-fields/{customField}/value', [CustomFieldController::class, 'setValue'])->middleware('crm.authorize:crm.fields.manage');
+        Route::apiResource('segments', SegmentController::class)->only(['index', 'store', 'show'])->middleware('crm.authorize:crm.segments.manage');
     });
