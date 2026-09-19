@@ -20,6 +20,7 @@ class CrmServiceProvider extends ServiceProvider
     public function boot(): void
     {
         RateLimiter::for('whatsapp-webhooks', fn () => Limit::perMinute(120));
+        RateLimiter::for('brevo-webhooks', fn () => Limit::perMinute(120));
         $this->publishes([__DIR__.'/../config/crm.php' => config_path('crm.php')], 'crm-config');
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
         $this->loadRoutesFrom(__DIR__.'/../routes/api.php');

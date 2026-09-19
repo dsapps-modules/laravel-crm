@@ -49,13 +49,15 @@ A inbox persiste conversas, mensagens e eventos de entrada com chave de idempot�
 
 As duas preparações de WhatsApp estão documentadas em [docs/whatsapp.md](docs/whatsapp.md): Meta Cloud API oficial (`meta_cloud`) e Uazapi (`uazapi`).
 
+O e-mail transacional usa Brevo (`brevo`), com envio por API key e recebimento de eventos por webhook Bearer. A configuração está em [docs/brevo.md](docs/brevo.md).
+
 Automações aceitam somente as ações `create_task`, `move_stage` e `notify_internal`, com ocorrência idempotente. O resumo de indicadores documenta `win_rate` como ganhas/(ganhas + perdidas) e retorna `null` quando não há denominador.
 
 ## Estado da entrega
 
 Implementado e testável localmente: fundação do pacote, migrações, contatos, empresas, arquivamento, paginação, validação, autorização configurável, funis, etapas, oportunidades, valores decimais, auditoria de movimentação, concorrência otimista, tarefas, agenda interna, equipes, tags, segmentos, campos personalizados, inbox interna, contratos de canais/Calendar, automações idempotentes e indicadores básicos.
 
-Ainda não concluído: adapters reais de WhatsApp/e-mail, sincronização Google Calendar, dashboard React completo e publicação externa. Não há alegação de integração externa sem provedor/credenciais aprovados.
+Ainda não concluído: validação dos adapters com contas externas autorizadas, sincronização Google Calendar, normalização de eventos recebidos em mensagens/conversas e publicação externa. Não há alegação de integração externa sem provedor/credenciais aprovados.
 
 ## Desenvolvimento
 

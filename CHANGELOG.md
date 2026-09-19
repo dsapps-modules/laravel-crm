@@ -18,3 +18,4 @@
 - Automações declarativas com ações permitidas, execução idempotente e indicadores básicos com denominador explícito.
 - Dashboard React responsivo com indicadores, tarefas, pipeline e estados de carregamento/erro/vazio.
 - Adapters configuráveis de WhatsApp para Meta Cloud API e Uazapi, com credenciais criptografadas, webhooks autenticados e testes HTTP fake.
+- Adapter de e-mail Brevo para envio transacional em texto/HTML, credenciais criptografadas e webhook Bearer idempotente para eventos recebidos.
