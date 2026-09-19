@@ -4,6 +4,8 @@ use DsApps\LaravelCrm\Http\Controllers\CompanyController;
 use DsApps\LaravelCrm\Http\Controllers\ContactController;
 use DsApps\LaravelCrm\Http\Controllers\OpportunityController;
 use DsApps\LaravelCrm\Http\Controllers\PipelineController;
+use DsApps\LaravelCrm\Http\Controllers\TaskController;
+use DsApps\LaravelCrm\Http\Controllers\CalendarEventController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix(config('crm.api.prefix', 'api/crm/v1'))
@@ -14,4 +16,7 @@ Route::prefix(config('crm.api.prefix', 'api/crm/v1'))
         Route::apiResource('pipelines', PipelineController::class)->only(['index', 'store', 'show'])->middleware('crm.authorize:crm.pipelines.manage');
         Route::apiResource('opportunities', OpportunityController::class)->only(['index', 'store', 'show', 'update'])->middleware('crm.authorize:crm.opportunities.manage');
         Route::post('opportunities/{opportunity}/move/{stage}', [OpportunityController::class, 'move'])->middleware('crm.authorize:crm.opportunities.manage');
+        Route::apiResource('tasks', TaskController::class)->middleware('crm.authorize:crm.tasks.manage');
+        Route::post('tasks/{task}/complete', [TaskController::class, 'complete'])->middleware('crm.authorize:crm.tasks.manage');
+        Route::apiResource('calendar-events', CalendarEventController::class)->middleware('crm.authorize:crm.calendar.manage');
     });
