@@ -17,3 +17,4 @@
 - Contratos `ChannelAdapter` e `CalendarProvider` com fakes para testes, sem declarar integrações externas concluídas.
 - Automações declarativas com ações permitidas, execução idempotente e indicadores básicos com denominador explícito.
 - Dashboard React responsivo com indicadores, tarefas, pipeline e estados de carregamento/erro/vazio.
+- Adapters configuráveis de WhatsApp para Meta Cloud API e Uazapi, com credenciais criptografadas, webhooks autenticados e testes HTTP fake.

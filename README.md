@@ -47,6 +47,8 @@ Equipes usam IDs de usuário do hospedeiro, sem acoplar um modelo de usuário ao
 
 A inbox persiste conversas, mensagens e eventos de entrada com chave de idempotência. Notas internas nunca passam por adapter externo. O contrato `ChannelAdapter` separa envio e capacidades; neste estágio existe somente fake para testes e o canal aparece como desconectado/bloqueado sem provedor configurado. `CalendarProvider` e seu fake preparam criação, atualização e cancelamento sem alegar sincronização Google Calendar.
 
+As duas preparações de WhatsApp estão documentadas em [docs/whatsapp.md](docs/whatsapp.md): Meta Cloud API oficial (`meta_cloud`) e Uazapi (`uazapi`).
+
 Automações aceitam somente as ações `create_task`, `move_stage` e `notify_internal`, com ocorrência idempotente. O resumo de indicadores documenta `win_rate` como ganhas/(ganhas + perdidas) e retorna `null` quando não há denominador.
 
 ## Estado da entrega
