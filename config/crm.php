@@ -13,4 +13,8 @@ return [
         'uazapi' => ['base_url' => env('CRM_WHATSAPP_UAZAPI_BASE_URL', 'https://api.uzapi.com.br')],
         'http_timeout' => (int) env('CRM_WHATSAPP_HTTP_TIMEOUT', 15),
     ],
+    'email' => [
+        'brevo' => ['base_url' => env('CRM_EMAIL_BREVO_BASE_URL', 'https://api.brevo.com')],
+        'http_timeout' => (int) env('CRM_EMAIL_HTTP_TIMEOUT', 15),
+    ],
 ];

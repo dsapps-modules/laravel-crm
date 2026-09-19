@@ -24,6 +24,7 @@ final class SendMessage
             return $conversation->messages()->create([
                 'direction' => $direction, 'message_type' => $data['message_type'] ?? 'text',
                 'status' => $direction === 'internal' ? 'sent' : 'pending', 'body' => $data['body'] ?? null,
+                'metadata' => $data['metadata'] ?? (isset($data['subject']) ? ['subject' => $data['subject']] : []),
                 'sender' => $data['sender'] ?? null, 'recipient' => $data['recipient'] ?? null,
                 'idempotency_key' => $data['idempotency_key'], 'sent_at' => $direction === 'internal' ? now() : null,
             ]);
