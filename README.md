@@ -27,6 +27,10 @@ O usuário autenticado precisa autorizar `crm.contacts.manage` e `crm.companies.
 - `GET|POST|PATCH|DELETE /api/crm/v1/tasks`
 - `POST /api/crm/v1/tasks/{task}/complete`
 - `GET|POST|PATCH|DELETE /api/crm/v1/calendar-events`
+- `GET|POST /api/crm/v1/teams` and `POST /api/crm/v1/teams/{team}/members`
+- `GET|POST /api/crm/v1/tags` and `POST /api/crm/v1/tags/{tag}/attach`
+- `GET|POST /api/crm/v1/custom-fields` and `POST /api/crm/v1/custom-fields/{field}/value`
+- `GET|POST /api/crm/v1/segments`
 
 Listas aceitam `search` e `per_page` (limitado a 100). Exclusão é arquivamento para preservar histórico.
 
@@ -34,9 +38,11 @@ Oportunidades usam `amount` decimal e `currency` explícita. Movimentos validam 
 
 Tarefas e eventos persistem instantes em UTC e mantêm o timezone de apresentação. Eventos de dia inteiro preservam `all_day=true`. Tarefas podem ser filtradas por `today`, `overdue` e `upcoming`; a próxima ação de um contato/oportunidade é a primeira tarefa pendente por vencimento.
 
+Equipes usam IDs de usuário do hospedeiro, sem acoplar um modelo de usuário ao pacote. Tags e campos personalizados aceitam somente entidades e tipos declarados. Segmentos armazenam filtros JSON declarativos; o pacote não executa código vindo desses filtros.
+
 ## Estado da entrega
 
-Implementado e testável localmente: fundação do pacote, migrações, contatos, empresas, arquivamento, paginação, validação, autorização configurável, funis, etapas, oportunidades, valores decimais, auditoria de movimentação, concorrência otimista, tarefas e agenda interna.
+Implementado e testável localmente: fundação do pacote, migrações, contatos, empresas, arquivamento, paginação, validação, autorização configurável, funis, etapas, oportunidades, valores decimais, auditoria de movimentação, concorrência otimista, tarefas, agenda interna, equipes, tags, segmentos e campos personalizados.
 
 Ainda não concluído: funis/oportunidades, tarefas, inbox, adapters reais de WhatsApp/e-mail, sincronização Google Calendar, automações, indicadores e biblioteca React completa. Não há alegação de integração externa sem provedor/credenciais aprovados.
 

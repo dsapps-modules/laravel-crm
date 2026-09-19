@@ -5,6 +5,7 @@
 - [ ] Fundação: testes e documentação de instalação
 - [x] Comercial: funis e oportunidades
 - [x] Acompanhamento: tarefas e agenda interna
+- [x] Comercial: equipes, tags, segmentos e campos personalizados
 - [ ] Comunicação: inbox e adapters
 - [ ] Automação: regras, jobs e indicadores
 - [ ] UI: biblioteca React/TypeScript

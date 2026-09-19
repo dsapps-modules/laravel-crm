@@ -12,3 +12,4 @@
 - Controle de concorrência otimista para movimentações de Kanban, retornando conflito sem sobrescrita silenciosa.
 - Tarefas pendentes/concluídas/canceladas, filtros de acompanhamento e resolução de próxima ação.
 - Agenda interna com eventos, timezone de apresentação e persistência de instantes UTC.
+- Equipes com atribuição idempotente, tags, segmentos declarativos e campos personalizados tipados.

@@ -24,7 +24,7 @@ Pacote Laravel independente para CRM comercial, com API versionada e biblioteca 
 
 - [x] Funis, etapas, oportunidades, concorrência e auditoria
 - [x] Tarefas, agenda interna, lembretes e próxima ação
-- [ ] Equipes, atribuição, tags, segmentos e campos personalizados
+- [x] Equipes, atribuição, tags, segmentos e campos personalizados
 
 ### Comunicação e automação
 
