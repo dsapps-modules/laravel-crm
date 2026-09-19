@@ -15,6 +15,7 @@ use DsApps\LaravelCrm\Http\Controllers\ConversationController;
 use DsApps\LaravelCrm\Http\Controllers\MessageController;
 use DsApps\LaravelCrm\Http\Controllers\AutomationController;
 use DsApps\LaravelCrm\Http\Controllers\ReportController;
+use DsApps\LaravelCrm\Http\Controllers\WhatsAppWebhookController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix(config('crm.api.prefix', 'api/crm/v1'))
@@ -41,3 +42,5 @@ Route::prefix(config('crm.api.prefix', 'api/crm/v1'))
         Route::apiResource('automations', AutomationController::class)->only(['index', 'store', 'show'])->middleware('crm.authorize:crm.automations.manage');
         Route::get('reports/summary', [ReportController::class, 'summary'])->middleware('crm.authorize:crm.reports.view');
     });
+
+Route::prefix(config('crm.api.prefix', 'api/crm/v1'))->post('webhooks/whatsapp/{channelAccount}', WhatsAppWebhookController::class)->middleware('throttle:whatsapp-webhooks');
