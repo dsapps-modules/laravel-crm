@@ -10,6 +10,9 @@ use DsApps\LaravelCrm\Http\Controllers\TeamController;
 use DsApps\LaravelCrm\Http\Controllers\TagController;
 use DsApps\LaravelCrm\Http\Controllers\CustomFieldController;
 use DsApps\LaravelCrm\Http\Controllers\SegmentController;
+use DsApps\LaravelCrm\Http\Controllers\ChannelAccountController;
+use DsApps\LaravelCrm\Http\Controllers\ConversationController;
+use DsApps\LaravelCrm\Http\Controllers\MessageController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix(config('crm.api.prefix', 'api/crm/v1'))
@@ -30,4 +33,7 @@ Route::prefix(config('crm.api.prefix', 'api/crm/v1'))
         Route::apiResource('custom-fields', CustomFieldController::class)->only(['index', 'store'])->middleware('crm.authorize:crm.fields.manage');
         Route::post('custom-fields/{customField}/value', [CustomFieldController::class, 'setValue'])->middleware('crm.authorize:crm.fields.manage');
         Route::apiResource('segments', SegmentController::class)->only(['index', 'store', 'show'])->middleware('crm.authorize:crm.segments.manage');
+        Route::apiResource('channel-accounts', ChannelAccountController::class)->only(['index', 'store', 'show'])->middleware('crm.authorize:crm.inbox.manage');
+        Route::apiResource('conversations', ConversationController::class)->only(['index', 'store', 'show'])->middleware('crm.authorize:crm.inbox.manage');
+        Route::post('conversations/{conversation}/messages', [MessageController::class, 'store'])->middleware('crm.authorize:crm.inbox.manage');
     });
