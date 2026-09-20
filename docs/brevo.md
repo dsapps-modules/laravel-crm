@@ -13,7 +13,7 @@ CRM_EMAIL_BREVO_WEBHOOK_TOKEN=um-token-aleatorio
 
 A API key não é retornada pelos endpoints do CRM. O `webhook_token` é um segredo separado usado somente para autenticar callbacks da Brevo; não reutilize a API key como token de webhook.
 
-Para enviar, crie uma conta `channel=email`, `provider=brevo` e `status=connected`, depois crie uma mensagem com `recipient`, `subject`, `body`, `message_type` (`text` ou `html`) e `idempotency_key`. O adapter chama `POST /v3/smtp/email`, usando o header `api-key` documentado pela Brevo. Cada envio inclui a tag configurada em `CRM_EMAIL_BREVO_APP_TAG`, permitindo separar eventos desta aplicação de outros sistemas na mesma conta Brevo.
+Para enviar, basta configurar as variáveis acima e criar uma mensagem com `recipient`, `subject`, `body`, `message_type` (`text` ou `html`) e `idempotency_key`. O vínculo técnico `email/brevo` é provisionado automaticamente na primeira operação que precisar dele. O adapter chama `POST /v3/smtp/email`, usando o header `api-key` documentado pela Brevo. Cada envio inclui a tag configurada em `CRM_EMAIL_BREVO_APP_TAG`, permitindo separar eventos desta aplicação de outros sistemas na mesma conta Brevo.
 
 Quando `CRM_EMAIL_BREVO_REPLY_DOMAIN` estiver configurado, a primeira mensagem de uma conversa recebe automaticamente um `replyTo` no formato `{token}@{domínio}`. O token é persistido na conversa para associar respostas futuras.
 
@@ -69,7 +69,7 @@ Use o tipo `marketing`, com eventos como `delivered`, `opened`, `click`, `hard_b
 
 O pacote associa o evento pelo `camp_id`, confere a tag da campanha, armazena o evento bruto e agrega estatísticas por evento e destinatário. O webhook inbound continua sendo o responsável pelo conteúdo das respostas; o webhook marketing acompanha a campanha.
 
-O webhook resolve internamente a única configuração `email/brevo` da aplicação. O `channelAccount` não faz parte da URL. A tabela `crm_channel_accounts` é criada pela migration do pacote e armazena a configuração local do canal; ela não representa múltiplas aplicações CRM.
+O webhook resolve internamente o único vínculo técnico `email/brevo` da aplicação. O `channelAccount` não faz parte da URL. A tabela `crm_channel_accounts` é criada pela migration do pacote para manter as relações internas do CRM; ela não exige cadastro manual, não representa múltiplas aplicações CRM e não armazena a API key do Brevo.
 
 ## Operação segura
 
