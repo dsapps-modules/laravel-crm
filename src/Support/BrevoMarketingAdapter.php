@@ -40,7 +40,7 @@ final class BrevoMarketingAdapter
 
     private function request(): \Illuminate\Http\Client\PendingRequest
     {
-        $apiKey = $this->credentials['api_key'] ?? null;
+        $apiKey = $this->config['api_key'] ?? $this->credentials['api_key'] ?? null;
         if (! $apiKey) throw new \RuntimeException('Credencial Brevo ausente.');
         return Http::timeout(config('crm.email.http_timeout', 15))->withHeaders(['api-key' => $apiKey, 'accept' => 'application/json']);
     }

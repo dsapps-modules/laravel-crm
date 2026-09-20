@@ -13,15 +13,15 @@ final class BrevoEmailAdapter implements ChannelAdapter
 
     public function send(Message $message): SendResult
     {
-        $apiKey = $this->credentials['api_key'] ?? null;
-        $senderEmail = $this->credentials['sender_email'] ?? null;
+        $apiKey = $this->config['api_key'] ?? $this->credentials['api_key'] ?? null;
+        $senderEmail = $this->config['sender_email'] ?? $this->credentials['sender_email'] ?? null;
         $subject = $message->metadata['subject'] ?? null;
         if (! $apiKey || ! $senderEmail || ! $subject || ! $message->recipient) {
             throw new \RuntimeException('Credenciais e dados do e-mail Brevo incompletos.');
         }
 
         $payload = [
-            'sender' => array_filter(['email' => $senderEmail, 'name' => $this->credentials['sender_name'] ?? null]),
+            'sender' => array_filter(['email' => $senderEmail, 'name' => $this->config['sender_name'] ?? $this->credentials['sender_name'] ?? null]),
             'to' => [['email' => $message->recipient]],
             'subject' => $subject,
             'tags' => array_values(array_unique(array_merge(

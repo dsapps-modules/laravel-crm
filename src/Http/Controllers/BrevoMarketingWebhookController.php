@@ -4,15 +4,15 @@ namespace DsApps\LaravelCrm\Http\Controllers;
 
 use DsApps\LaravelCrm\Models\ChannelAccount;
 use DsApps\LaravelCrm\Services\ProcessBrevoMarketingEvent;
+use DsApps\LaravelCrm\Services\BrevoChannelAccountResolver;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
 class BrevoMarketingWebhookController extends Controller
 {
-    public function __invoke(Request $request, ProcessBrevoMarketingEvent $processor): array
+    public function __invoke(Request $request, ProcessBrevoMarketingEvent $processor, BrevoChannelAccountResolver $accounts): array
     {
-        $account = ChannelAccount::query()->where('channel', 'email')->where('provider', 'brevo')->first();
-        abort_unless($account, 503, 'Brevo ainda não foi configurado.');
+        $account = $accounts->resolve();
         abort_unless($this->authentic($request, $account), 401);
         $payload = $request->json()->all();
         $items = array_is_list($payload) ? $payload : [$payload];
@@ -26,7 +26,7 @@ class BrevoMarketingWebhookController extends Controller
 
     private function authentic(Request $request, ChannelAccount $account): bool
     {
-        $expected = $account->credentials['webhook_token'] ?? null;
+        $expected = config('crm.email.brevo.webhook_token') ?: ($account->credentials['webhook_token'] ?? null);
         return $expected && hash_equals('Bearer '.$expected, (string) $request->header('Authorization'));
     }
 }

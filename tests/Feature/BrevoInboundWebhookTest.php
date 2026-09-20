@@ -6,6 +6,7 @@ use DsApps\LaravelCrm\Http\Controllers\BrevoInboundWebhookController;
 use DsApps\LaravelCrm\Models\ChannelAccount;
 use DsApps\LaravelCrm\Models\Conversation;
 use DsApps\LaravelCrm\Services\ProcessBrevoInboundEmail;
+use DsApps\LaravelCrm\Services\BrevoChannelAccountResolver;
 use Illuminate\Http\Request;
 use Tests\TestCase;
 
@@ -32,8 +33,8 @@ class BrevoInboundWebhookTest extends TestCase
         ], json_encode($payload));
         $controller = app(BrevoInboundWebhookController::class);
 
-        $controller($request, app(ProcessBrevoInboundEmail::class));
-        $controller($request, app(ProcessBrevoInboundEmail::class));
+        $controller($request, app(ProcessBrevoInboundEmail::class), app(BrevoChannelAccountResolver::class));
+        $controller($request, app(ProcessBrevoInboundEmail::class), app(BrevoChannelAccountResolver::class));
 
         $this->assertDatabaseCount('crm_inbound_events', 1);
         $this->assertDatabaseCount('crm_messages', 2);
@@ -56,7 +57,7 @@ class BrevoInboundWebhookTest extends TestCase
             'CONTENT_TYPE' => 'application/json', 'HTTP_AUTHORIZATION' => 'Bearer webhook-secret',
         ], json_encode($payload));
 
-        app(BrevoInboundWebhookController::class)($request, app(ProcessBrevoInboundEmail::class));
+        app(BrevoInboundWebhookController::class)($request, app(ProcessBrevoInboundEmail::class), app(BrevoChannelAccountResolver::class));
 
         $this->assertDatabaseCount('crm_conversations', 1);
         $this->assertDatabaseHas('crm_messages', ['direction' => 'inbound', 'sender' => 'novo@example.com']);

@@ -1,15 +1,17 @@
 # E-mail com Brevo
 
-O provider de e-mail é `brevo`. As credenciais da conta são criptografadas pelo cast do modelo `ChannelAccount`.
+O provider de e-mail é `brevo`. Nesta instalação, não é necessário criar manualmente uma conta Brevo no CRM. A configuração vem do ambiente e o pacote cria apenas um vínculo técnico interno quando precisa relacionar conversas e eventos.
 
-```json
-{
-  "api_key": "xkeysib-...",
-  "sender_email": "crm@example.com",
-  "sender_name": "CRM",
-  "webhook_token": "um-token-aleatorio"
-}
+```env
+CRM_EMAIL_BREVO_API_KEY=xkeysib-...
+CRM_EMAIL_BREVO_SENDER_EMAIL=contato@bplprodutos.com.br
+CRM_EMAIL_BREVO_SENDER_NAME=BPL Produtos
+CRM_EMAIL_BREVO_APP_TAG=bpl_crm
+CRM_EMAIL_BREVO_REPLY_DOMAIN=reply.bplprodutos.com.br
+CRM_EMAIL_BREVO_WEBHOOK_TOKEN=um-token-aleatorio
 ```
+
+A API key não é retornada pelos endpoints do CRM. O `webhook_token` é um segredo separado usado somente para autenticar callbacks da Brevo; não reutilize a API key como token de webhook.
 
 Para enviar, crie uma conta `channel=email`, `provider=brevo` e `status=connected`, depois crie uma mensagem com `recipient`, `subject`, `body`, `message_type` (`text` ou `html`) e `idempotency_key`. O adapter chama `POST /v3/smtp/email`, usando o header `api-key` documentado pela Brevo. Cada envio inclui a tag configurada em `CRM_EMAIL_BREVO_APP_TAG`, permitindo separar eventos desta aplicação de outros sistemas na mesma conta Brevo.
 

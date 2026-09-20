@@ -2,8 +2,8 @@
 
 namespace DsApps\LaravelCrm\Http\Controllers;
 
-use DsApps\LaravelCrm\Models\ChannelAccount;
 use DsApps\LaravelCrm\Models\EmailCampaign;
+use DsApps\LaravelCrm\Services\BrevoChannelAccountResolver;
 use DsApps\LaravelCrm\Services\BrevoMarketingAdapterFactory;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -12,20 +12,23 @@ class EmailCampaignController extends Controller
 {
     public function index(): mixed { return EmailCampaign::latest()->paginate(25); }
 
-    public function store(Request $request): mixed
+    public function store(Request $request, BrevoChannelAccountResolver $brevoAccounts): mixed
     {
         $data = $request->validate([
             'name' => ['required', 'string', 'max:190'], 'subject' => ['required', 'string', 'max:998'],
-            'sender_email' => ['required', 'email', 'max:190'], 'sender_name' => ['nullable', 'string', 'max:120'],
+            'sender_email' => ['nullable', 'email', 'max:190'], 'sender_name' => ['nullable', 'string', 'max:120'],
             'reply_to' => ['nullable', 'email', 'max:190'], 'html_content' => ['required', 'string', 'min:11', 'max:1000000'],
             'recipients' => ['required', 'array'], 'recipients.listIds' => ['sometimes', 'array'], 'recipients.listIds.*' => ['integer', 'min:1'],
             'recipients.segmentIds' => ['sometimes', 'array'], 'recipients.segmentIds.*' => ['integer', 'min:1'],
             'recipients.excludeListIds' => ['sometimes', 'array'], 'recipients.excludeListIds.*' => ['integer', 'min:1'],
             'tag' => ['nullable', 'string', 'max:80'], 'scheduled_at' => ['nullable', 'date'], 'idempotency_key' => ['required', 'string', 'max:190'],
         ]);
+        $data['sender_email'] ??= config('crm.email.brevo.sender_email');
+        $data['sender_name'] ??= config('crm.email.brevo.sender_name');
+        abort_unless($data['sender_email'], 503, 'Remetente Brevo não configurado.');
         $existing = EmailCampaign::where('idempotency_key', $data['idempotency_key'])->first();
         if ($existing) return $existing;
-        $account = ChannelAccount::where('channel', 'email')->where('provider', 'brevo')->firstOrFail();
+        $account = $brevoAccounts->resolve();
         $campaign = EmailCampaign::create(array_merge($data, ['channel_account_id' => $account->id, 'tag' => $data['tag'] ?? config('crm.email.brevo.app_tag', 'laravel_crm'), 'status' => 'pending']));
         try {
             $campaign->update(['provider_campaign_id' => app(BrevoMarketingAdapterFactory::class)->for($account)->create($campaign), 'status' => 'draft']);

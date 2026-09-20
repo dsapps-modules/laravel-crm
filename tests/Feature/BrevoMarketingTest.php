@@ -7,6 +7,7 @@ use DsApps\LaravelCrm\Models\ChannelAccount;
 use DsApps\LaravelCrm\Models\EmailCampaign;
 use DsApps\LaravelCrm\Services\BrevoMarketingAdapterFactory;
 use DsApps\LaravelCrm\Services\ProcessBrevoMarketingEvent;
+use DsApps\LaravelCrm\Services\BrevoChannelAccountResolver;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
 use Tests\TestCase;
@@ -43,8 +44,8 @@ class BrevoMarketingTest extends TestCase
         $request = Request::create('/webhooks/brevo/marketing', 'POST', [], [], [], ['CONTENT_TYPE' => 'application/json', 'HTTP_AUTHORIZATION' => 'Bearer webhook-secret'], json_encode($payload));
         $controller = app(BrevoMarketingWebhookController::class);
 
-        $controller($request, app(ProcessBrevoMarketingEvent::class));
-        $controller($request, app(ProcessBrevoMarketingEvent::class));
+        $controller($request, app(ProcessBrevoMarketingEvent::class), app(BrevoChannelAccountResolver::class));
+        $controller($request, app(ProcessBrevoMarketingEvent::class), app(BrevoChannelAccountResolver::class));
 
         $this->assertDatabaseCount('crm_inbound_events', 1);
         $this->assertSame(1, $campaign->refresh()->stats['events']['opened']);

@@ -4,6 +4,7 @@ namespace DsApps\LaravelCrm\Http\Controllers;
 
 use DsApps\LaravelCrm\Models\Conversation;
 use DsApps\LaravelCrm\Models\ChannelAccount;
+use DsApps\LaravelCrm\Services\BrevoChannelAccountResolver;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
@@ -16,9 +17,11 @@ class ConversationController extends Controller
         if ($request->filled('status')) $query->where('status', $request->string('status'));
         return $query->latest('last_message_at')->paginate(min($request->integer('per_page', 25), 100));
     }
-    public function store(Request $request): Conversation
+    public function store(Request $request, BrevoChannelAccountResolver $brevoAccounts): Conversation
     {
-        $data = $request->validate(['channel_account_id' => ['required', 'exists:'.config('crm.table_prefix').'channel_accounts,id'], 'contact_id' => ['nullable', 'exists:'.config('crm.table_prefix').'contacts,id'], 'external_thread_id' => ['nullable', 'string', 'max:190']]);
+        $data = $request->validate(['channel_account_id' => ['nullable', 'exists:'.config('crm.table_prefix').'channel_accounts,id'], 'channel' => ['required_without:channel_account_id', 'nullable', 'in:email'], 'provider' => ['required_with:channel', 'nullable', 'in:brevo'], 'contact_id' => ['nullable', 'exists:'.config('crm.table_prefix').'contacts,id'], 'external_thread_id' => ['nullable', 'string', 'max:190']]);
+        if (empty($data['channel_account_id'])) $data['channel_account_id'] = $brevoAccounts->resolve()->id;
+        unset($data['channel'], $data['provider']);
         return Conversation::create($data);
     }
     public function show(Conversation $conversation): Conversation { return $conversation->load(['account', 'messages']); }

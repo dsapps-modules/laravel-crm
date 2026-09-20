@@ -16,8 +16,12 @@ return [
     'email' => [
         'brevo' => [
             'base_url' => env('CRM_EMAIL_BREVO_BASE_URL', 'https://api.brevo.com'),
+            'api_key' => env('CRM_EMAIL_BREVO_API_KEY'),
+            'sender_email' => env('CRM_EMAIL_BREVO_SENDER_EMAIL'),
+            'sender_name' => env('CRM_EMAIL_BREVO_SENDER_NAME'),
             'app_tag' => env('CRM_EMAIL_BREVO_APP_TAG', 'laravel_crm'),
             'reply_domain' => env('CRM_EMAIL_BREVO_REPLY_DOMAIN'),
+            'webhook_token' => env('CRM_EMAIL_BREVO_WEBHOOK_TOKEN'),
         ],
         'http_timeout' => (int) env('CRM_EMAIL_HTTP_TIMEOUT', 15),
     ],
