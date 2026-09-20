@@ -9,9 +9,13 @@ use Illuminate\Routing\Controller;
 
 class BrevoWebhookController extends Controller
 {
-    public function __invoke(Request $request, ChannelAccount $channelAccount, RecordInboundEvent $events): array
+    public function __invoke(Request $request, RecordInboundEvent $events): array
     {
-        abort_unless($channelAccount->channel === 'email' && $channelAccount->provider === 'brevo', 404);
+        $channelAccount = ChannelAccount::query()
+            ->where('channel', 'email')
+            ->where('provider', 'brevo')
+            ->first();
+        abort_unless($channelAccount, 503, 'Brevo ainda não foi configurado.');
         abort_unless($this->authentic($request, $channelAccount), 401);
 
         $payload = $request->json()->all();

@@ -16,10 +16,12 @@ Para enviar, crie uma conta `channel=email`, `provider=brevo` e `status=connecte
 Para receber eventos transacionais, configure na Brevo um webhook para:
 
 ```text
-/api/crm/v1/webhooks/brevo/{channelAccount}
+/api/crm/v1/webhooks/brevo
 ```
 
 Configure autenticação Bearer no webhook da Brevo com o mesmo `webhook_token`. O endpoint aceita evento único ou lote, persiste o payload bruto em `crm_inbound_events` e deduplica por `message-id`/ID do evento. A normalização de entregas em mensagens e conversas deve ocorrer em uma etapa posterior, após definir os estados de negócio do host.
+
+O webhook resolve internamente a única configuração `email/brevo` da aplicação. O `channelAccount` não faz parte da URL. A tabela `crm_channel_accounts` é criada pela migration do pacote e armazena a configuração local do canal; ela não representa múltiplas aplicações CRM.
 
 ## Operação segura
 

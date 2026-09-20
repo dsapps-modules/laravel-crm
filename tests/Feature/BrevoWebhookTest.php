@@ -23,8 +23,8 @@ class BrevoWebhookTest extends TestCase
         ], $body);
         $controller = app(BrevoWebhookController::class);
 
-        $controller($request, $account, app(RecordInboundEvent::class));
-        $controller($request, $account, app(RecordInboundEvent::class));
+        $controller($request, app(RecordInboundEvent::class));
+        $controller($request, app(RecordInboundEvent::class));
 
         $this->assertDatabaseCount('crm_inbound_events', 1);
     }
@@ -40,6 +40,6 @@ class BrevoWebhookTest extends TestCase
         ], json_encode(['event' => 'delivered', 'message-id' => 'brevo-event']));
 
         $this->expectException(\Symfony\Component\HttpKernel\Exception\HttpException::class);
-        app(BrevoWebhookController::class)($request, $account, app(RecordInboundEvent::class));
+        app(BrevoWebhookController::class)($request, app(RecordInboundEvent::class));
     }
 }
