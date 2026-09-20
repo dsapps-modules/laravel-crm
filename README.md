@@ -21,7 +21,7 @@ O usuário autenticado precisa autorizar `crm.contacts.manage` e `crm.companies.
 - `GET|POST /api/crm/v1/companies`
 - `GET|PUT|PATCH|DELETE /api/crm/v1/companies/{company}`
 - `GET|POST /api/crm/v1/pipelines`
-- `GET /api/crm/v1/pipelines/{pipeline}`
+- `GET|PUT|PATCH|DELETE /api/crm/v1/pipelines/{pipeline}`
 - `GET|POST|PATCH /api/crm/v1/opportunities`
 - `POST /api/crm/v1/opportunities/{opportunity}/move/{stage}` with `version`
 - `GET|POST|PATCH|DELETE /api/crm/v1/tasks`
@@ -41,7 +41,7 @@ O usuário autenticado precisa autorizar `crm.contacts.manage` e `crm.companies.
 
 Listas aceitam `search` e `per_page` (limitado a 100). Exclusão é arquivamento para preservar histórico.
 
-Oportunidades usam `amount` decimal e `currency` explícita. Movimentos validam o funil da etapa, incrementam `version` e registram histórico. Uma versão desatualizada retorna `409` e não sobrescreve a alteração concorrente. O fechamento como `lost` exige `loss_reason`.
+Oportunidades usam `amount` decimal e `currency` explícita. Movimentos validam o funil da etapa, incrementam `version` e registram histórico. Uma versão desatualizada retorna `409` e não sobrescreve a alteração concorrente. O fechamento como `lost` exige `loss_reason`. Funis aceitam edição, inclusão, renomeação, remoção e reordenação de etapas; uma etapa com oportunidade ou histórico não pode ser removida, e um funil com vínculos não pode ser excluído.
 
 Tarefas e eventos persistem instantes em UTC e mantêm o timezone de apresentação. Eventos de dia inteiro preservam `all_day=true`. Tarefas podem ser filtradas por `today`, `overdue` e `upcoming`; a próxima ação de um contato/oportunidade é a primeira tarefa pendente por vencimento.
 

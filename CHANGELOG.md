@@ -2,23 +2,7 @@
 
 ## Unreleased
 
-### Added
-
-- Pacote Laravel CRM independente com provider, configuração e migrations versionadas.
-- API versionada para contatos e empresas com busca, paginação, validação e arquivamento.
-- Vínculos externos com unicidade por origem, tipo e ID.
-- Resolver de autorização substituível e cliente React/TypeScript inicial.
-- Funis, etapas e oportunidades com API, valor decimal, motivo de perda e histórico de etapas.
-- Controle de concorrência otimista para movimentações de Kanban, retornando conflito sem sobrescrita silenciosa.
-- Tarefas pendentes/concluídas/canceladas, filtros de acompanhamento e resolução de próxima ação.
-- Agenda interna com eventos, timezone de apresentação e persistência de instantes UTC.
-- Equipes com atribuição idempotente, tags, segmentos declarativos e campos personalizados tipados.
-- Inbox interna com conversas, mensagens idempotentes, deduplicação de eventos recebidos e bloqueio de canais desconectados.
-- Contratos `ChannelAdapter` e `CalendarProvider` com fakes para testes, sem declarar integrações externas concluídas.
-- Automações declarativas com ações permitidas, execução idempotente e indicadores básicos com denominador explícito.
-- Dashboard React responsivo com indicadores, tarefas, pipeline e estados de carregamento/erro/vazio.
-- Adapters configuráveis de WhatsApp para Meta Cloud API e Uazapi, com credenciais criptografadas, webhooks autenticados e testes HTTP fake.
-- Adapter de e-mail Brevo para envio transacional em texto/HTML, credenciais criptografadas e webhook Bearer idempotente para eventos recebidos.
-- Webhook Brevo sem identificador de conta na URL; a configuração única `email/brevo` é resolvida internamente.
-- Rastreamento transacional por tags/message-id e recebimento inbound com associação por `InReplyTo`/token de conversa.
-- Campanhas de e-mail marketing Brevo com audiência por listas/segmentos, disparo, relatório e webhook de métricas por campanha.
+- Adicionada edição e exclusão segura de funis.
+- Adicionada sincronização de etapas existentes e novas, com renomeação, remoção e reordenação.
+- Bloqueada a remoção de etapas e funis com oportunidades ou histórico comercial.
+- Documentados os payloads e endpoints de gerenciamento de funis.

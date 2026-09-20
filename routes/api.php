@@ -26,7 +26,7 @@ Route::prefix(config('crm.api.prefix', 'api/crm/v1'))
     ->group(function (): void {
         Route::apiResource('contacts', ContactController::class)->middleware('crm.authorize:crm.contacts.manage');
         Route::apiResource('companies', CompanyController::class)->middleware('crm.authorize:crm.companies.manage');
-        Route::apiResource('pipelines', PipelineController::class)->only(['index', 'store', 'show'])->middleware('crm.authorize:crm.pipelines.manage');
+        Route::apiResource('pipelines', PipelineController::class)->only(['index', 'store', 'show', 'update', 'destroy'])->middleware('crm.authorize:crm.pipelines.manage');
         Route::apiResource('opportunities', OpportunityController::class)->only(['index', 'store', 'show', 'update'])->middleware('crm.authorize:crm.opportunities.manage');
         Route::post('opportunities/{opportunity}/move/{stage}', [OpportunityController::class, 'move'])->middleware('crm.authorize:crm.opportunities.manage');
         Route::apiResource('tasks', TaskController::class)->middleware('crm.authorize:crm.tasks.manage');

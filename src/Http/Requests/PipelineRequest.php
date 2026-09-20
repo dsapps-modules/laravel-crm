@@ -14,8 +14,8 @@ class PipelineRequest extends FormRequest
             'name' => ['required', 'string', 'max:160'],
             'active' => ['sometimes', 'boolean'],
             'stages' => ['required', 'array', 'min:1'],
-            'stages.*.name' => ['required', 'string', 'max:160'],
-            'stages.*.position' => ['required', 'integer', 'min:0'],
+            'stages.*.name' => ['required', 'string', 'max:160', 'distinct'],
+            'stages.*.position' => ['required', 'integer', 'min:0', 'distinct'],
         ];
     }
 }
