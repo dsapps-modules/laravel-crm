@@ -18,6 +18,8 @@ use DsApps\LaravelCrm\Http\Controllers\ReportController;
 use DsApps\LaravelCrm\Http\Controllers\WhatsAppWebhookController;
 use DsApps\LaravelCrm\Http\Controllers\BrevoWebhookController;
 use DsApps\LaravelCrm\Http\Controllers\BrevoInboundWebhookController;
+use DsApps\LaravelCrm\Http\Controllers\EmailCampaignController;
+use DsApps\LaravelCrm\Http\Controllers\BrevoMarketingWebhookController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix(config('crm.api.prefix', 'api/crm/v1'))
@@ -43,9 +45,13 @@ Route::prefix(config('crm.api.prefix', 'api/crm/v1'))
         Route::post('conversations/{conversation}/messages', [MessageController::class, 'store'])->middleware('crm.authorize:crm.inbox.manage');
         Route::apiResource('automations', AutomationController::class)->only(['index', 'store', 'show'])->middleware('crm.authorize:crm.automations.manage');
         Route::get('reports/summary', [ReportController::class, 'summary'])->middleware('crm.authorize:crm.reports.view');
+        Route::apiResource('email-campaigns', EmailCampaignController::class)->only(['index', 'store', 'show'])->middleware('crm.authorize:crm.email_marketing.manage');
+        Route::post('email-campaigns/{emailCampaign}/send', [EmailCampaignController::class, 'send'])->middleware('crm.authorize:crm.email_marketing.manage');
+        Route::get('email-campaigns/{emailCampaign}/report', [EmailCampaignController::class, 'report'])->middleware('crm.authorize:crm.email_marketing.manage');
     });
 
 Route::prefix(config('crm.api.prefix', 'api/crm/v1'))->post('webhooks/whatsapp/{channelAccount}', WhatsAppWebhookController::class)->middleware('throttle:whatsapp-webhooks');
 Route::prefix(config('crm.api.prefix', 'api/crm/v1'))->post('webhooks/brevo', BrevoWebhookController::class)->middleware('throttle:brevo-webhooks');
 Route::prefix(config('crm.api.prefix', 'api/crm/v1'))->post('webhooks/brevo/transactional', BrevoWebhookController::class)->middleware('throttle:brevo-webhooks');
 Route::prefix(config('crm.api.prefix', 'api/crm/v1'))->post('webhooks/brevo/inbound', BrevoInboundWebhookController::class)->middleware('throttle:brevo-webhooks');
+Route::prefix(config('crm.api.prefix', 'api/crm/v1'))->post('webhooks/brevo/marketing', BrevoMarketingWebhookController::class)->middleware('throttle:brevo-webhooks');

@@ -15,9 +15,20 @@ Para enviar, crie uma conta `channel=email`, `provider=brevo` e `status=connecte
 
 Quando `CRM_EMAIL_BREVO_REPLY_DOMAIN` estiver configurado, a primeira mensagem de uma conversa recebe automaticamente um `replyTo` no formato `{token}@{domínio}`. O token é persistido na conversa para associar respostas futuras.
 
-## Webhooks
+## Campanhas e webhooks
 
-Configure dois webhooks separados na Brevo:
+Para e-mail marketing, o CRM usa campanhas da Brevo e a audiência é informada por IDs de listas/segmentos Brevo. Os endpoints locais são:
+
+```text
+GET|POST /api/crm/v1/email-campaigns
+GET /api/crm/v1/email-campaigns/{emailCampaign}
+POST /api/crm/v1/email-campaigns/{emailCampaign}/send
+GET /api/crm/v1/email-campaigns/{emailCampaign}/report
+```
+
+Uma campanha é criada como draft na Brevo, pode ser disparada explicitamente e mantém o ID da campanha e as estatísticas locais. A API oficial exige conteúdo HTML, remetente, assunto e audiência por listas/segmentos; o pacote não envia campanha marketing pelo endpoint transacional.
+
+Configure três webhooks separados na Brevo quando a aplicação usar envio transacional, inbound e marketing:
 
 ### Acompanhamento transacional
 
@@ -46,6 +57,16 @@ MX  reply.seudominio.com.br  20  inbound2.sendinblue.com.
 
 O domínio também precisa estar verificado na Brevo. O endpoint aceita o payload `items`, deduplica por UUID/Message-ID, associa respostas por `InReplyTo` ou pelo token do endereço `replyTo`, cria a mensagem inbound na conversa e cria uma nova conversa quando não encontra associação.
 
+### Acompanhamento de campanhas
+
+Use o tipo `marketing`, com eventos como `delivered`, `opened`, `click`, `hard_bounce`, `soft_bounce`, `spam` e `unsubscribe`, na URL:
+
+```text
+/api/crm/v1/webhooks/brevo/marketing
+```
+
+O pacote associa o evento pelo `camp_id`, confere a tag da campanha, armazena o evento bruto e agrega estatísticas por evento e destinatário. O webhook inbound continua sendo o responsável pelo conteúdo das respostas; o webhook marketing acompanha a campanha.
+
 O webhook resolve internamente a única configuração `email/brevo` da aplicação. O `channelAccount` não faz parte da URL. A tabela `crm_channel_accounts` é criada pela migration do pacote e armazena a configuração local do canal; ela não representa múltiplas aplicações CRM.
 
 ## Operação segura
@@ -55,9 +76,14 @@ O webhook resolve internamente a única configuração `email/brevo` da aplicaç
 - Só marque a conta como `connected` após validar credenciais e remetente.
 - O pacote não envia mensagens reais nos testes; eles usam `Http::fake`.
 - Eventos inbound podem conter PII e anexos; o host deve definir retenção e política de acesso antes da produção.
+- Listas, segmentos, consentimento e descadastro permanecem sob as regras de contatos da Brevo; campanhas não devem ignorar contatos descadastrados.
 
 ## Fontes oficiais
 
 - Envio transacional: https://developers.brevo.com/reference/send-transac-email
 - Webhooks: https://developers.brevo.com/docs/how-to-use-webhooks
 - Segurança dos webhooks: https://developers.brevo.com/docs/secured-webhooks
+- Campanhas de e-mail: https://developers.brevo.com/reference/create-email-campaign
+- Disparo de campanha: https://developers.brevo.com/reference/send-email-campaign-now
+- Relatório de campanha: https://developers.brevo.com/reference/get-email-campaign
+- Eventos de marketing: https://developers.brevo.com/docs/marketing-webhooks

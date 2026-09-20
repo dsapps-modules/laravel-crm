@@ -10,6 +10,7 @@
 - [x] Comunicação: adapter Brevo para envio transacional e webhook de recebimento
 - [ ] Comunicação: validar adapters com contas de teste autorizadas
 - [x] Comunicação: normalizar eventos recebidos em mensagens/conversas
+- [x] Comunicação: campanhas de e-mail marketing Brevo e métricas de campanha
 - [ ] Comunicação: configurar DNS do subdomínio inbound e webhooks Brevo no ambiente publicado
 - [x] Automação: regras idempotentes e indicadores básicos
 - [x] UI: dashboard React/TypeScript
