@@ -24,7 +24,12 @@ final class BrevoEmailAdapter implements ChannelAdapter
             'sender' => array_filter(['email' => $senderEmail, 'name' => $this->credentials['sender_name'] ?? null]),
             'to' => [['email' => $message->recipient]],
             'subject' => $subject,
+            'tags' => array_values(array_unique(array_merge(
+                [$this->config['app_tag'] ?? 'laravel_crm'],
+                $message->metadata['tags'] ?? [],
+            ))),
         ];
+        if (isset($message->metadata['reply_to'])) $payload['replyTo'] = $message->metadata['reply_to'];
         if ($message->message_type === 'html') {
             $payload['htmlContent'] = $message->body ?? '';
         } else {

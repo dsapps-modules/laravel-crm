@@ -32,6 +32,7 @@ class BrevoEmailAdapterTest extends TestCase
             && $request->header('api-key')[0] === 'secret'
             && $request['sender']['email'] === 'crm@example.com'
             && $request['to'][0]['email'] === 'contact@example.com'
+            && $request['tags'] === ['laravel_crm']
             && $request['textContent'] === 'Mensagem de teste');
     }
 
