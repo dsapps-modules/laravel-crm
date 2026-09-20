@@ -17,6 +17,7 @@ use DsApps\LaravelCrm\Http\Controllers\AutomationController;
 use DsApps\LaravelCrm\Http\Controllers\ReportController;
 use DsApps\LaravelCrm\Http\Controllers\WhatsAppWebhookController;
 use DsApps\LaravelCrm\Http\Controllers\BrevoWebhookController;
+use DsApps\LaravelCrm\Http\Controllers\BrevoInboundWebhookController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix(config('crm.api.prefix', 'api/crm/v1'))
@@ -47,3 +48,4 @@ Route::prefix(config('crm.api.prefix', 'api/crm/v1'))
 Route::prefix(config('crm.api.prefix', 'api/crm/v1'))->post('webhooks/whatsapp/{channelAccount}', WhatsAppWebhookController::class)->middleware('throttle:whatsapp-webhooks');
 Route::prefix(config('crm.api.prefix', 'api/crm/v1'))->post('webhooks/brevo', BrevoWebhookController::class)->middleware('throttle:brevo-webhooks');
 Route::prefix(config('crm.api.prefix', 'api/crm/v1'))->post('webhooks/brevo/transactional', BrevoWebhookController::class)->middleware('throttle:brevo-webhooks');
+Route::prefix(config('crm.api.prefix', 'api/crm/v1'))->post('webhooks/brevo/inbound', BrevoInboundWebhookController::class)->middleware('throttle:brevo-webhooks');

@@ -14,7 +14,10 @@ class MessageController extends Controller
 {
     public function store(Request $request, Conversation $conversation, SendMessage $send): mixed
     {
-        $data = $request->validate(['direction' => ['sometimes', 'in:outbound,internal'], 'body' => ['nullable', 'string', 'max:10000'], 'recipient' => ['nullable', 'email', 'max:190'], 'message_type' => ['sometimes', 'in:text,html'], 'subject' => ['nullable', 'string', 'max:998'], 'reply_to' => ['nullable', 'array'], 'reply_to.email' => ['required_with:reply_to', 'email', 'max:190'], 'reply_to.name' => ['nullable', 'string', 'max:120'], 'tags' => ['sometimes', 'array', 'max:10'], 'tags.*' => ['string', 'max:80'], 'idempotency_key' => ['required', 'string', 'max:190']]);
+        $data = $request->validate(['direction' => ['sometimes', 'in:outbound,internal'], 'body' => ['nullable', 'string', 'max:10000'], 'recipient' => ['nullable', 'string', 'max:190'], 'message_type' => ['sometimes', 'in:text,html'], 'subject' => ['nullable', 'string', 'max:998'], 'reply_to' => ['nullable', 'array'], 'reply_to.email' => ['required_with:reply_to', 'email', 'max:190'], 'reply_to.name' => ['nullable', 'string', 'max:120'], 'tags' => ['sometimes', 'array', 'max:10'], 'tags.*' => ['string', 'max:80'], 'idempotency_key' => ['required', 'string', 'max:190']]);
+        if (($data['direction'] ?? 'outbound') !== 'internal' && $conversation->account->channel === 'email' && (! isset($data['recipient']) || ! filter_var($data['recipient'], FILTER_VALIDATE_EMAIL))) {
+            return response()->json(['message' => 'O destinatário precisa ser um e-mail válido.'], 422);
+        }
         if (($data['direction'] ?? 'outbound') !== 'internal' && $conversation->account->channel === 'email' && blank($data['subject'] ?? null)) {
             return response()->json(['message' => 'O assunto é obrigatório para e-mails.'], 422);
         }

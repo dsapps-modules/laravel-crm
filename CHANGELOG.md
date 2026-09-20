@@ -20,3 +20,4 @@
 - Adapters configuráveis de WhatsApp para Meta Cloud API e Uazapi, com credenciais criptografadas, webhooks autenticados e testes HTTP fake.
 - Adapter de e-mail Brevo para envio transacional em texto/HTML, credenciais criptografadas e webhook Bearer idempotente para eventos recebidos.
 - Webhook Brevo sem identificador de conta na URL; a configuração única `email/brevo` é resolvida internamente.
+- Rastreamento transacional por tags/message-id e recebimento inbound com associação por `InReplyTo`/token de conversa.

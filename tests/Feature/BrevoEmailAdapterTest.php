@@ -52,4 +52,24 @@ class BrevoEmailAdapterTest extends TestCase
 
         Http::assertSent(fn ($request) => $request['htmlContent'] === '<p>Olá</p>' && ! isset($request['textContent']));
     }
+
+    public function test_brevo_adapter_sets_reply_to_from_conversation_reply_domain(): void
+    {
+        config()->set('crm.email.brevo.reply_domain', 'reply.bplprodutos.com.br');
+        Http::fake(['https://api.brevo.com/*' => Http::response(['messageId' => '<brevo-reply>'], 201)]);
+        $account = ChannelAccount::create([
+            'channel' => 'email', 'provider' => 'brevo', 'name' => 'Brevo', 'status' => 'connected',
+            'credentials' => ['api_key' => 'secret', 'sender_email' => 'crm@example.com'],
+        ]);
+        $conversation = Conversation::create(['channel_account_id' => $account->id]);
+
+        $message = app(SendMessage::class)->execute($conversation, [
+            'recipient' => 'contact@example.com', 'subject' => 'Resposta', 'body' => 'Acompanhe a conversa',
+            'idempotency_key' => 'brevo-reply',
+        ], app(EmailAdapterFactory::class)->for($account));
+
+        $this->assertNotNull($conversation->refresh()->reply_token);
+        $this->assertSame($conversation->reply_token.'@reply.bplprodutos.com.br', $message->metadata['reply_to']['email']);
+        Http::assertSent(fn ($request) => $request['replyTo']['email'] === $message->metadata['reply_to']['email']);
+    }
 }

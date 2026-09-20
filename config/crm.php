@@ -17,6 +17,7 @@ return [
         'brevo' => [
             'base_url' => env('CRM_EMAIL_BREVO_BASE_URL', 'https://api.brevo.com'),
             'app_tag' => env('CRM_EMAIL_BREVO_APP_TAG', 'laravel_crm'),
+            'reply_domain' => env('CRM_EMAIL_BREVO_REPLY_DOMAIN'),
         ],
         'http_timeout' => (int) env('CRM_EMAIL_HTTP_TIMEOUT', 15),
     ],

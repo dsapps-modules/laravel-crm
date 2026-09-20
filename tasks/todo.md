@@ -9,7 +9,8 @@
 - [x] Comunicação: inbox, contratos de canal e CalendarProvider fake
 - [x] Comunicação: adapter Brevo para envio transacional e webhook de recebimento
 - [ ] Comunicação: validar adapters com contas de teste autorizadas
-- [ ] Comunicação: normalizar eventos recebidos em mensagens/conversas
+- [x] Comunicação: normalizar eventos recebidos em mensagens/conversas
+- [ ] Comunicação: configurar DNS do subdomínio inbound e webhooks Brevo no ambiente publicado
 - [x] Automação: regras idempotentes e indicadores básicos
 - [x] UI: dashboard React/TypeScript
 - [ ] Publicação: revisão, changelog e release

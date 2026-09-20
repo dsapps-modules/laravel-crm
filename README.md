@@ -49,7 +49,7 @@ A inbox persiste conversas, mensagens e eventos de entrada com chave de idempot�
 
 As duas preparações de WhatsApp estão documentadas em [docs/whatsapp.md](docs/whatsapp.md): Meta Cloud API oficial (`meta_cloud`) e Uazapi (`uazapi`).
 
-O e-mail transacional usa Brevo (`brevo`), com envio por API key e recebimento de eventos por webhook Bearer. A configuração está em [docs/brevo.md](docs/brevo.md).
+O e-mail usa Brevo (`brevo`) para envio, acompanhamento transacional e recebimento inbound por webhook Bearer. A configuração de tags, `replyTo`, DNS e os dois webhooks está em [docs/brevo.md](docs/brevo.md).
 
 Automações aceitam somente as ações `create_task`, `move_stage` e `notify_internal`, com ocorrência idempotente. O resumo de indicadores documenta `win_rate` como ganhas/(ganhas + perdidas) e retorna `null` quando não há denominador.
 

@@ -7,6 +7,7 @@ use DsApps\LaravelCrm\Exceptions\ChannelDisconnected;
 use DsApps\LaravelCrm\Models\Conversation;
 use DsApps\LaravelCrm\Models\Message;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 final class SendMessage
 {
@@ -21,10 +22,16 @@ final class SendMessage
 
         $message = DB::transaction(function () use ($conversation, $data): Message {
             $direction = $data['direction'] ?? 'outbound';
+            $metadata = $data['metadata'] ?? (isset($data['subject']) ? ['subject' => $data['subject']] : []);
+            if ($direction === 'outbound' && $conversation->account->channel === 'email' && $conversation->account->provider === 'brevo' && empty($metadata['reply_to']) && filled(config('crm.email.brevo.reply_domain'))) {
+                $conversation->reply_token ??= Str::random(32);
+                $conversation->save();
+                $metadata['reply_to'] = ['email' => $conversation->reply_token.'@'.ltrim(config('crm.email.brevo.reply_domain'), '@')];
+            }
             return $conversation->messages()->create([
                 'direction' => $direction, 'message_type' => $data['message_type'] ?? 'text',
                 'status' => $direction === 'internal' ? 'sent' : 'pending', 'body' => $data['body'] ?? null,
-                'metadata' => $data['metadata'] ?? (isset($data['subject']) ? ['subject' => $data['subject']] : []),
+                'metadata' => $metadata,
                 'sender' => $data['sender'] ?? null, 'recipient' => $data['recipient'] ?? null,
                 'idempotency_key' => $data['idempotency_key'], 'sent_at' => $direction === 'internal' ? now() : null,
             ]);
