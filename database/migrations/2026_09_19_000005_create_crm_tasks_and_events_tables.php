@@ -31,8 +31,10 @@ return new class extends Migration {
             $table->unsignedBigInteger('owner_id')->nullable()->index();
             $table->string('title', 180);
             $table->text('notes')->nullable();
-            $table->timestamp('start_at');
-            $table->timestamp('end_at');
+            // DATETIME avoids MySQL's implicit TIMESTAMP default rules while
+            // preserving the UTC instants normalized by CalendarEventRequest.
+            $table->dateTime('start_at');
+            $table->dateTime('end_at');
             $table->boolean('all_day')->default(false);
             $table->string('timezone', 80)->default('UTC');
             $table->string('status', 20)->default('scheduled');
