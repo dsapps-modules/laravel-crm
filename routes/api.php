@@ -10,7 +10,6 @@ use DsApps\LaravelCrm\Http\Controllers\TeamController;
 use DsApps\LaravelCrm\Http\Controllers\TagController;
 use DsApps\LaravelCrm\Http\Controllers\CustomFieldController;
 use DsApps\LaravelCrm\Http\Controllers\SegmentController;
-use DsApps\LaravelCrm\Http\Controllers\ChannelAccountController;
 use DsApps\LaravelCrm\Http\Controllers\ConversationController;
 use DsApps\LaravelCrm\Http\Controllers\MessageController;
 use DsApps\LaravelCrm\Http\Controllers\AutomationController;
@@ -40,7 +39,6 @@ Route::prefix(config('crm.api.prefix', 'api/crm/v1'))
         Route::apiResource('custom-fields', CustomFieldController::class)->only(['index', 'store'])->middleware('crm.authorize:crm.fields.manage');
         Route::post('custom-fields/{customField}/value', [CustomFieldController::class, 'setValue'])->middleware('crm.authorize:crm.fields.manage');
         Route::apiResource('segments', SegmentController::class)->only(['index', 'store', 'show'])->middleware('crm.authorize:crm.segments.manage');
-        Route::apiResource('channel-accounts', ChannelAccountController::class)->only(['index', 'store', 'show'])->middleware('crm.authorize:crm.inbox.manage');
         Route::apiResource('conversations', ConversationController::class)->only(['index', 'store', 'show'])->middleware('crm.authorize:crm.inbox.manage');
         Route::post('conversations/{conversation}/messages', [MessageController::class, 'store'])->middleware('crm.authorize:crm.inbox.manage');
         Route::apiResource('automations', AutomationController::class)->only(['index', 'store', 'show'])->middleware('crm.authorize:crm.automations.manage');
@@ -50,7 +48,7 @@ Route::prefix(config('crm.api.prefix', 'api/crm/v1'))
         Route::get('email-campaigns/{emailCampaign}/report', [EmailCampaignController::class, 'report'])->middleware('crm.authorize:crm.email_marketing.manage');
     });
 
-Route::prefix(config('crm.api.prefix', 'api/crm/v1'))->post('webhooks/whatsapp/{channelAccount}', WhatsAppWebhookController::class)->middleware('throttle:whatsapp-webhooks');
+Route::prefix(config('crm.api.prefix', 'api/crm/v1'))->post('webhooks/whatsapp/{provider}', WhatsAppWebhookController::class)->middleware('throttle:whatsapp-webhooks');
 Route::prefix(config('crm.api.prefix', 'api/crm/v1'))->post('webhooks/brevo', BrevoWebhookController::class)->middleware('throttle:brevo-webhooks');
 Route::prefix(config('crm.api.prefix', 'api/crm/v1'))->post('webhooks/brevo/transactional', BrevoWebhookController::class)->middleware('throttle:brevo-webhooks');
 Route::prefix(config('crm.api.prefix', 'api/crm/v1'))->post('webhooks/brevo/inbound', BrevoInboundWebhookController::class)->middleware('throttle:brevo-webhooks');

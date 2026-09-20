@@ -31,7 +31,6 @@ O usuário autenticado precisa autorizar `crm.contacts.manage` e `crm.companies.
 - `GET|POST /api/crm/v1/tags` and `POST /api/crm/v1/tags/{tag}/attach`
 - `GET|POST /api/crm/v1/custom-fields` and `POST /api/crm/v1/custom-fields/{field}/value`
 - `GET|POST /api/crm/v1/segments`
-- `GET|POST /api/crm/v1/channel-accounts`
 - `GET|POST /api/crm/v1/conversations`
 - `POST /api/crm/v1/conversations/{conversation}/messages`
 - `GET|POST /api/crm/v1/automations`

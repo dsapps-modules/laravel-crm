@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use DsApps\LaravelCrm\Services\BrevoChannelAccountResolver;
+use DsApps\LaravelCrm\Services\ConfiguredChannelResolver;
 use Tests\TestCase;
 
 class BrevoConfigurationTest extends TestCase
@@ -19,7 +20,20 @@ class BrevoConfigurationTest extends TestCase
         $this->assertSame('email', $account->channel);
         $this->assertSame('brevo', $account->provider);
         $this->assertSame('connected', $account->status);
-        $this->assertSame(['webhook_token' => 'env-webhook-token'], $account->credentials);
+        $this->assertSame([], $account->credentials);
         $this->assertArrayNotHasKey('credentials', $account->toArray());
+    }
+
+    public function test_uazapi_channel_is_resolved_from_environment_without_public_account_setup(): void
+    {
+        config()->set('crm.whatsapp.uazapi.token', 'uazapi-token');
+        config()->set('crm.whatsapp.uazapi.webhook_token', 'uazapi-webhook-token');
+
+        $account = app(ConfiguredChannelResolver::class)->resolve('whatsapp', 'uazapi');
+
+        $this->assertSame('whatsapp', $account->channel);
+        $this->assertSame('uazapi', $account->provider);
+        $this->assertSame('connected', $account->status);
+        $this->assertSame([], $account->credentials);
     }
 }

@@ -13,7 +13,7 @@ final class UazapiWhatsAppAdapter implements ChannelAdapter
 
     public function send(Message $message): SendResult
     {
-        $token = $this->credentials['token'] ?? null;
+        $token = $this->config['token'] ?? $this->credentials['token'] ?? null;
         if (! $token) throw new \RuntimeException('Token Uazapi ausente.');
         $response = Http::timeout(config('crm.whatsapp.http_timeout', 15))->withHeaders(['token' => $token])->post(rtrim($this->config['base_url'], '/').'/send/text', ['number' => $message->recipient, 'text' => $message->body]);
         if ($response->failed()) throw new \RuntimeException('Uazapi recusou o envio WhatsApp.');

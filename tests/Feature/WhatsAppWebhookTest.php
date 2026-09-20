@@ -20,8 +20,7 @@ class WhatsAppWebhookTest extends TestCase
 
         $request = Request::create('/webhook', 'POST', [], [], [], ['CONTENT_TYPE' => 'application/json', 'HTTP_X_HUB_SIGNATURE_256' => $signature], $body);
         $controller = app(WhatsAppWebhookController::class);
-        $controller($request, $account, app(RecordInboundEvent::class));
-        $controller($request, $account, app(RecordInboundEvent::class));
+        $controller($request, 'meta_cloud', app(RecordInboundEvent::class), app(\DsApps\LaravelCrm\Services\ConfiguredChannelResolver::class));
         $this->assertDatabaseCount('crm_inbound_events', 1);
     }
 
@@ -30,7 +29,7 @@ class WhatsAppWebhookTest extends TestCase
         $account = ChannelAccount::create(['channel' => 'whatsapp', 'provider' => 'uazapi', 'name' => 'Uazapi', 'credentials' => ['webhook_token' => 'valid']]);
         $request = Request::create('/webhook', 'POST', [], [], [], ['CONTENT_TYPE' => 'application/json', 'HTTP_TOKEN' => 'wrong'], json_encode(['id' => 'uazapi-event']));
         $this->expectException(\Symfony\Component\HttpKernel\Exception\HttpException::class);
-        app(WhatsAppWebhookController::class)($request, $account, app(RecordInboundEvent::class));
+        app(WhatsAppWebhookController::class)($request, 'uazapi', app(RecordInboundEvent::class), app(\DsApps\LaravelCrm\Services\ConfiguredChannelResolver::class));
         $this->assertDatabaseCount('crm_inbound_events', 0);
     }
 }

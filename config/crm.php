@@ -9,8 +9,18 @@ return [
     'user_model' => env('CRM_USER_MODEL', 'App\\Models\\User'),
     'authorization_resolver' => DsApps\LaravelCrm\Contracts\AuthorizationResolver::class,
     'whatsapp' => [
-        'meta' => ['base_url' => env('CRM_WHATSAPP_META_BASE_URL', 'https://graph.facebook.com'), 'api_version' => env('CRM_WHATSAPP_META_API_VERSION')],
-        'uazapi' => ['base_url' => env('CRM_WHATSAPP_UAZAPI_BASE_URL', 'https://api.uzapi.com.br')],
+        'meta' => [
+            'base_url' => env('CRM_WHATSAPP_META_BASE_URL', 'https://graph.facebook.com'),
+            'api_version' => env('CRM_WHATSAPP_META_API_VERSION'),
+            'phone_number_id' => env('CRM_WHATSAPP_META_PHONE_NUMBER_ID'),
+            'access_token' => env('CRM_WHATSAPP_META_ACCESS_TOKEN'),
+            'app_secret' => env('CRM_WHATSAPP_META_APP_SECRET'),
+        ],
+        'uazapi' => [
+            'base_url' => env('CRM_WHATSAPP_UAZAPI_BASE_URL', 'https://api.uzapi.com.br'),
+            'token' => env('CRM_WHATSAPP_UAZAPI_TOKEN'),
+            'webhook_token' => env('CRM_WHATSAPP_UAZAPI_WEBHOOK_TOKEN'),
+        ],
         'http_timeout' => (int) env('CRM_WHATSAPP_HTTP_TIMEOUT', 15),
     ],
     'email' => [

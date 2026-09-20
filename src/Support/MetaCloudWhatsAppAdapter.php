@@ -13,8 +13,8 @@ final class MetaCloudWhatsAppAdapter implements ChannelAdapter
 
     public function send(Message $message): SendResult
     {
-        $phoneNumberId = $this->credentials['phone_number_id'] ?? null;
-        $token = $this->credentials['access_token'] ?? null;
+        $phoneNumberId = $this->config['phone_number_id'] ?? $this->credentials['phone_number_id'] ?? null;
+        $token = $this->config['access_token'] ?? $this->credentials['access_token'] ?? null;
         $version = $this->config['api_version'] ?? null;
         if (! $phoneNumberId || ! $token || ! $version) throw new \RuntimeException('Credenciais Meta incompletas.');
         $response = Http::timeout(config('crm.whatsapp.http_timeout', 15))->withToken($token)->post(rtrim($this->config['base_url'], '/')."/{$version}/{$phoneNumberId}/messages", ['messaging_product' => 'whatsapp', 'recipient_type' => 'individual', 'to' => $message->recipient, 'type' => 'text', 'text' => ['preview_url' => false, 'body' => $message->body]]);
