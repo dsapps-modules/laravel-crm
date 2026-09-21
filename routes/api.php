@@ -19,12 +19,15 @@ use DsApps\LaravelCrm\Http\Controllers\BrevoWebhookController;
 use DsApps\LaravelCrm\Http\Controllers\BrevoInboundWebhookController;
 use DsApps\LaravelCrm\Http\Controllers\EmailCampaignController;
 use DsApps\LaravelCrm\Http\Controllers\BrevoMarketingWebhookController;
+use DsApps\LaravelCrm\Http\Controllers\LookupController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix(config('crm.api.prefix', 'api/crm/v1'))
     ->middleware(config('crm.api.middleware', ['api', 'auth']))
     ->group(function (): void {
         Route::apiResource('contacts', ContactController::class)->middleware('crm.authorize:crm.contacts.manage');
+        Route::get('lookups/cnpj/{document}', [LookupController::class, 'cnpj'])->middleware('crm.authorize:crm.contacts.manage');
+        Route::get('lookups/cep/{postalCode}', [LookupController::class, 'postalCode'])->middleware('crm.authorize:crm.contacts.manage');
         Route::apiResource('companies', CompanyController::class)->middleware('crm.authorize:crm.companies.manage');
         Route::apiResource('pipelines', PipelineController::class)->only(['index', 'store', 'show', 'update', 'destroy'])->middleware('crm.authorize:crm.pipelines.manage');
         Route::apiResource('opportunities', OpportunityController::class)->only(['index', 'store', 'show', 'update'])->middleware('crm.authorize:crm.opportunities.manage');

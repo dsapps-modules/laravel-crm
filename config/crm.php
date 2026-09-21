@@ -35,4 +35,12 @@ return [
         ],
         'http_timeout' => (int) env('CRM_EMAIL_HTTP_TIMEOUT', 15),
     ],
+    'lookups' => [
+        'http_timeout' => (int) env('CRM_LOOKUPS_HTTP_TIMEOUT', 8),
+        'cache_ttl' => (int) env('CRM_LOOKUPS_CACHE_TTL', 86400),
+        'cnpj_provider' => DsApps\LaravelCrm\Support\BrasilApiLookupProvider::class,
+        'postal_code_provider' => DsApps\LaravelCrm\Support\BrasilApiLookupProvider::class,
+        'cnpj_base_url' => env('CRM_LOOKUPS_CNPJ_BASE_URL', 'https://brasilapi.com.br/api/cnpj/v1'),
+        'postal_code_base_url' => env('CRM_LOOKUPS_CEP_BASE_URL', 'https://brasilapi.com.br/api/cep/v1'),
+    ],
 ];

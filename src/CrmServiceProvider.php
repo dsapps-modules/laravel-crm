@@ -3,6 +3,8 @@
 namespace DsApps\LaravelCrm;
 
 use DsApps\LaravelCrm\Contracts\AuthorizationResolver;
+use DsApps\LaravelCrm\Contracts\CnpjLookupProvider;
+use DsApps\LaravelCrm\Contracts\PostalCodeLookupProvider;
 use DsApps\LaravelCrm\Http\Middleware\AuthorizeCrm;
 use DsApps\LaravelCrm\Support\DefaultAuthorizationResolver;
 use Illuminate\Support\ServiceProvider;
@@ -15,6 +17,8 @@ class CrmServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__.'/../config/crm.php', 'crm');
         $this->app->bind(AuthorizationResolver::class, fn ($app) => $app->make(config('crm.authorization_resolver', DefaultAuthorizationResolver::class)));
+        $this->app->bind(CnpjLookupProvider::class, fn ($app) => $app->make(config('crm.lookups.cnpj_provider')));
+        $this->app->bind(PostalCodeLookupProvider::class, fn ($app) => $app->make(config('crm.lookups.postal_code_provider')));
     }
 
     public function boot(): void

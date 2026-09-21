@@ -18,6 +18,7 @@ O usuário autenticado precisa autorizar `crm.contacts.manage` e `crm.companies.
 
 - `GET|POST /api/crm/v1/contacts`
 - `GET|PUT|PATCH|DELETE /api/crm/v1/contacts/{contact}`
+- `GET /api/crm/v1/lookups/cnpj/{document}` and `GET /api/crm/v1/lookups/cep/{postalCode}`
 - `GET|POST /api/crm/v1/companies`
 - `GET|PUT|PATCH|DELETE /api/crm/v1/companies/{company}`
 - `GET|POST /api/crm/v1/pipelines`
@@ -39,7 +40,7 @@ O usuário autenticado precisa autorizar `crm.contacts.manage` e `crm.companies.
 - `POST /api/crm/v1/email-campaigns/{emailCampaign}/send`
 - `GET /api/crm/v1/email-campaigns/{emailCampaign}/report`
 
-Listas aceitam `search` e `per_page` (limitado a 100). Exclusão é arquivamento para preservar histórico.
+Listas aceitam `search` e `per_page` (limitado a 100). Exclusão é arquivamento para preservar histórico. Contatos e empresas aceitam CPF/CNPJ e endereço normalizados; as consultas de CNPJ e CEP são protegidas pela mesma autorização de contatos e usam cache.
 
 Oportunidades usam `amount` decimal e `currency` explícita. Movimentos validam o funil da etapa, incrementam `version` e registram histórico. Uma versão desatualizada retorna `409` e não sobrescreve a alteração concorrente. O fechamento como `lost` exige `loss_reason`. Funis aceitam edição, inclusão, renomeação, remoção e reordenação de etapas; uma etapa com oportunidade ou histórico não pode ser removida, e um funil com vínculos não pode ser excluído.
 
